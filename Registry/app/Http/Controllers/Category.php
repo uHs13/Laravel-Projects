@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category as Model;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class Category extends Controller
 {
@@ -40,28 +40,19 @@ class Category extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
+
+        $data = $request->validated();
 
         $category = new Model();
 
-        $category->name = $request->input('name');
+        $category->name = $data['name'];
 
         $category->save();
 
         return redirect()->route('categories.index');
 
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -84,13 +75,15 @@ class Category extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
+
+        $data = $request->validated();
         
         $category = Model::find($id);
 
         if (isset($category)) {
-            $category->name = $request->input('name');
+            $category->name = $data['name'];
         }
 
         $category->save();

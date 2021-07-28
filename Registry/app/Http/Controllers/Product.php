@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ProductRequest;
 use App\Models\Product as Model;
 use App\Models\Category;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class Product extends Controller
 {
@@ -17,7 +17,9 @@ class Product extends Controller
     public function index()
     {
         return view('products.index', [
-            'products' => DB::table('products')->paginate(3)
+            'products' => DB::table('products')
+            ->orderby('id', 'desc')
+            ->paginate(3)
         ]);
     }
 
@@ -39,29 +41,20 @@ class Product extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
 
+        $data = $request->validated();
+
         $product = new Model();
-        $product->name = $request->input('name');
-        $product->stock = $request->input('stock');
-        $product->price = $request->input('price');
-        $product->category_id = $request->input('category');
+        $product->name = $data['name'];
+        $product->stock = $data['stock'];
+        $product->price = $data['price'];
+        $product->category_id = $data['category'];
         $product->save();
 
         return redirect()->route('products.index');
 
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -85,16 +78,20 @@ class Product extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
+
+        $data = $request->validated();
+
         $product = Model::find($id);
-        $product->name = $request->input('name');
-        $product->stock = $request->input('stock');
-        $product->price = $request->input('price');
-        $product->category_id = $request->input('category');
+        $product->name = $data['name'];
+        $product->stock = $data['stock'];
+        $product->price = $data['price'];
+        $product->category_id = $data['category'];
         $product->save();
 
         return redirect()->route('products.index');
+
     }
 
     /**

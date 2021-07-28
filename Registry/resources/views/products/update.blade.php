@@ -29,7 +29,12 @@
                             <i class="fas fa-font fa-md text-info"></i>
                         </div>
                     </div>
-                    <input type="text" name="name" id="name" class="form-control" placeholder="Name *" value="{{ $product['name'] }}">
+                    <input type="text" name="name" id="name" class="form-control {{ ($errors->has('name')) ? 'is-invalid' : '' }}" placeholder="Name *" value="@if (old('name')) {{ old('name') }} @else {{ $product['name'] }} @endif">
+                    @if ($errors->has('name'))
+                        <div class="invalid-feedback">
+                            {{ $errors->first('name') }}
+                        </div>
+                    @endif
                 </div>
 
                 <div class="input-group form-group">
@@ -38,7 +43,12 @@
                             <i class="fab fa-stack-overflow fa-md text-info"></i>
                         </div>
                     </div>
-                    <input type="text" class="form-control" id="stock" name="stock" placeholder="Stock *" value="{{ $product['stock'] }}">
+                    <input type="text" class="form-control {{ ($errors->has('stock')) ? 'is-invalid' : '' }}" id="stock" name="stock" placeholder="Stock *" value="@if (old('stock')) {{ old('stock') }} @else {{ $product['stock'] }} @endif">
+                    @if ($errors->has('stock'))
+                        <div class="invalid-feedback">
+                            {{ $errors->first('stock') }}
+                        </div>
+                    @endif
                 </div>
 
                 <div class="input-group form-group">
@@ -47,7 +57,12 @@
                             <i class="fas fa-dollar-sign text-info fa-md"></i>
                         </div>
                     </div>
-                    <input type="text" class="form-control" id="price" name="price" placeholder="Price *" value="{{ $product['price'] }}">
+                    <input type="text" class="form-control {{ ($errors->has('price')) ? 'is-invalid' : '' }}" id="price" name="price" placeholder="Price *" value="@if (old('price')) {{ old('price') }} @else {{ $product['price'] }} @endif">
+                    @if ($errors->has('price'))
+                        <div class="invalid-feedback">
+                            {{ $errors->first('price') }}
+                        </div>
+                    @endif
                 </div>
 
                 <div class="input-group mb-3">
@@ -57,13 +72,18 @@
                             Category
                         </label>
                     </div>
-                    <select class="custom-select" id="categorySelect" name="category">
+                    <select class="custom-select {{ ($errors->has('category')) ? 'is-invalid' : '' }}" id="categorySelect" name="category">
                         @foreach ($categories as $category)
-                            <option value="{{ $category['id'] }}" @if ($product['category_id'] === $category['id'])
+                            <option value="{{ $category['id'] }}" @if ($product['category_id'] === $category['id'] || old('category_id') == $category['id'])
                                 selected
                             @endif>{{ $category['name'] }}</option>
                         @endforeach
                     </select>
+                    @if ($errors->has('category'))
+                        <div class="invalid-feedback">
+                            {{ $errors->first('category') }}
+                        </div>
+                    @endif
                 </div>
 
                 <div class="form-group col-4 offset-4">

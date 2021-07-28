@@ -24,7 +24,12 @@
 
                 <div class="form-group">
                     <label for="name">Name<span class="text-danger"> *</span></label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ $category->name }}">
+                    <input type="text" class="form-control {{ ($errors->has('name')) ? 'is-invalid' : '' }}" id="name" name="name" value="@if (old('name')) {{ old('name') }} @else {{ $category->name }} @endif">
+                    @if ($errors->has('name'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('name') }}
+                    </div>
+                @endif
                 </div>
 
                 <div class="form-group col-4 offset-4">
