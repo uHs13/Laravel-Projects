@@ -20,6 +20,10 @@ Route::get('/', function () {
     return view('registry.index');
 });
 
+Route::get('/departments', function () {
+    return view('departments.index');
+});
+
 Route::resource('products', Product::class);
 Route::resource('categories', Category::class);
 Route::resource('clients', Client::class);

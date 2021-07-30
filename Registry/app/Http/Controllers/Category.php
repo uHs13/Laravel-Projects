@@ -18,6 +18,7 @@ class Category extends Controller
 
         return view('category.index',[
             'categories' => DB::table('categories')
+            ->whereNull('deleted_at')
             ->orderby('id', 'desc')
             ->paginate(3)
         ]);
