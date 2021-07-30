@@ -2,12 +2,11 @@ class Table {
 
     constructor(tbodyId) {
         this.tbodyEl = document.querySelector(`#${tbodyId}`);
-        this.listData();
     }
 
-    listData() {
+    listData(csrf) {
 
-        Department.all().then(res => {
+        Department.all(csrf).then(res => {
 
             this.buildRows(res);
 
@@ -42,6 +41,11 @@ class Table {
 
         });
 
+    }
+
+    refresh(csrf) {
+        this.tbodyEl.innerHTML = "";
+        this.listData(csrf);
     }
 
 }

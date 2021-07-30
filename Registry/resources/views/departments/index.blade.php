@@ -56,8 +56,9 @@
                         <span aria-hidden="true" class="text-danger">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form action="">
+                <form action="" id='form'>
+                    <div class="modal-body">
+
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">
@@ -72,15 +73,19 @@
                                     <i class="fas fa-file-alt text-dark"></i>
                                 </span>
                             </div>
-                            <textarea id="description" name="description" class="form-control" aria-label="Description" placeholder="Description *"></textarea>
+                            <textarea id="description" name="description" class="form-control" aria-label="Description"
+                                placeholder="Description *"></textarea>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times-circle"></i>
-                        Close</button>
-                    <button type="button" class="btn btn-dark"><i class="fas fa-plus-circle text-light"></i> Save</button>
-                </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnclose" class="btn btn-danger" data-dismiss="modal"><i
+                                class="fas fa-times-circle"></i>
+                            Close</button>
+                        <button type="submit" class="btn btn-dark"><i class="fas fa-plus-circle text-light"></i>
+                            Save</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -88,9 +93,26 @@
 @stop
 
 @section('javascript')
-<script src="{{ asset('js/functions/clearform.js') }}"></script>
-<script src="{{ asset('js/classes/Fetch/Fetch.js') }}"></script>
-<script src="{{ asset('js/classes/Department/Department.js') }}"></script>
-<script src="{{ asset('js/classes/Table/Table.js') }}"></script>
-<script src="{{ asset('js/classes/main/main.js') }}"></script>
+    <script src="{{ asset('js/functions/clearform.js') }}"></script>
+    <script src="{{ asset('js/classes/Fetch/Fetch.js') }}"></script>
+    <script src="{{ asset('js/classes/Department/Department.js') }}"></script>
+    <script src="{{ asset('js/classes/Table/Table.js') }}"></script>
+    <script>
+        let table = new Table('tbody');
+        window.addEventListener('load', () => {
+            table.listData("{{ csrf_token() }}");
+        });
+        document.querySelector('#form').addEventListener('submit', e => {
+
+            e.preventDefault();
+
+            let data = new FormData(document.querySelector('#form'));
+
+            Department.store("{{ csrf_token() }}", data).then(res => {
+                table.refresh("{{ csrf_token() }}");
+                document.querySelector('#btnclose').click();
+            });
+
+        });
+    </script>
 @stop

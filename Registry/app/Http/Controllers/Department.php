@@ -39,7 +39,11 @@ class Department extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $model = new Model();
+        $model->name = $request->input('name');
+        $model->description = $request->input('description');
+        $model->save();
+        return json_encode($model);
     }
 
     /**
