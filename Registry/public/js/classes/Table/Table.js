@@ -1,14 +1,19 @@
 class Table {
-
     constructor(tbodyId) {
         this.tbodyEl = document.querySelector(`#${tbodyId}`);
     }
 
     listData(csrf) {
 
-        Department.all(csrf).then(res => {
+        return new Promise((res, rej) => {
 
-            this.buildRows(res);
+            Department.all(csrf).then(data => {
+
+                this.buildRows(data).then(() => {
+                    res(true);
+                });
+
+            });
 
         });
 
@@ -16,36 +21,41 @@ class Table {
 
     buildRows(data) {
 
-        Object.keys(data).forEach(d => {
+        return new Promise((res, rej) => {
 
-            let tr = document.createElement('tr');
-            let td1 = document.createElement('td');
-            let td2 = document.createElement('td');
-            let td3 = document.createElement('td');
+            Object.keys(data).forEach(d => {
 
-            td1.innerHTML = data[d].id;
-            td2.innerHTML = data[d].name;
-            td3.innerHTML = `
-                <button class="btn btn-sm btn-primary mr-2">
-                    <i class="fas fa-edit text-light"></i> Edit
-                </button>
-                <button class="btn btn-sm btn-danger">
-                    <i class="fas fa-trash-alt text-light"></i> Delete
-                </button>
-            `;
+                let tr = document.createElement('tr');
+                let td1 = document.createElement('td');
+                let td2 = document.createElement('td');
+                let td3 = document.createElement('td');
 
-            tr.appendChild(td1);
-            tr.appendChild(td2);
-            tr.appendChild(td3);
-            this.tbodyEl.appendChild(tr);
+                tr.dataset.department = JSON.stringify(data[d]);
+                td1.innerHTML = data[d].id;
+                td2.innerHTML = data[d].name;
+                td3.innerHTML = `
+                    <button class="btn btn-sm btn-primary mr-2 editBtn">
+                        <i class="fas fa-edit text-light"></i> Edit
+                    </button>
+                    <button class="btn btn-sm btn-danger deleteBtn">
+                        <i class="fas fa-trash-alt text-light"></i> Delete
+                    </button>
+                `;
+
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                this.tbodyEl.appendChild(tr);
+
+            });
+
+            res(true);
 
         });
 
     }
 
-    refresh(csrf) {
+    refresh() {
         this.tbodyEl.innerHTML = "";
-        this.listData(csrf);
     }
-
 }

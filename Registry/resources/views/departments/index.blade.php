@@ -90,6 +90,19 @@
         </div>
     </div>
 
+    <div class="position-fixed bottom-0 right-0 p-3" style="position: absolute; top: 0; right: 0;">
+    <div id="liveToast" class="toast hide bg-green" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
+        <div class="toast-header">
+        <strong class="mr-auto toast-title"></strong>
+        <button type="button" class="ml-2 mb-1 close text-danger" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="toast-body text-light">
+        </div>
+    </div>
+    </div>
+
 @stop
 
 @section('javascript')
@@ -98,21 +111,73 @@
     <script src="{{ asset('js/classes/Department/Department.js') }}"></script>
     <script src="{{ asset('js/classes/Table/Table.js') }}"></script>
     <script>
+
         let table = new Table('tbody');
+
         window.addEventListener('load', () => {
-            table.listData("{{ csrf_token() }}");
-        });
-        document.querySelector('#form').addEventListener('submit', e => {
 
-            e.preventDefault();
+            buildTable();
 
-            let data = new FormData(document.querySelector('#form'));
+            document.querySelector('#form').addEventListener('submit', e => {
 
-            Department.store("{{ csrf_token() }}", data).then(res => {
-                table.refresh("{{ csrf_token() }}");
-                document.querySelector('#btnclose').click();
+                e.preventDefault();
+
+                let data = new FormData(document.querySelector('#form'));
+
+                Department.store("{{ csrf_token() }}", data).then(res => {
+                    buildTable();
+                    document.querySelector('#btnclose').click();
+                });
+
             });
 
         });
+
+        function buildTable() {
+
+            table.refresh();
+
+            table.listData("{{ csrf_token() }}").then(() => {
+                onDeleteEvents();
+            });
+
+        }
+
+        function onDeleteEvents() {
+
+            document.querySelectorAll('.deleteBtn').forEach(btn => {
+
+                btn.addEventListener('click', () => {
+
+                    let department = btn.parentElement.parentElement.dataset.department;
+
+                    department = JSON.parse(department);
+
+                    Department.delete("{{ csrf_token() }}", department.id).then(res => {
+                        toast(res.status, department);
+                    });
+
+                    buildTable();
+
+                });
+
+            });
+
+        }
+
+        function toast(status, department) {
+
+            let color = (status == 'success') ? 'bg-success' : 'bg-danger';
+            let title = (status = 'success') ? 'Success' : 'Error';
+            let msg = (status == 'success')
+            ? `${department.name} successfully deleted`
+            : 'Error while deleting. Please try again';
+
+            document.querySelector('#liveToast').classList.add(color);
+            document.querySelector('.toast-title').innerHTML = title;
+            document.querySelector('.toast-body').innerHTML = msg;
+
+            $('#liveToast').toast('show');
+        }
     </script>
 @stop

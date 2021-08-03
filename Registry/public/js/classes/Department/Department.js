@@ -3,7 +3,7 @@ class Department {
 
         return new Promise((res, rej) => {
 
-            Fetch.all('http://localhost:8000/api/departments', csrf).then(
+            Fetch.url('http://localhost:8000/api/departments', csrf, 'GET').then(
                 data => {
                     res(data);
                 },
@@ -20,7 +20,24 @@ class Department {
 
         return new Promise((res, rej) => {
 
-            Fetch.store('http://localhost:8000/api/departments', csrf, data).then(
+            Fetch.url('http://localhost:8000/api/departments', csrf, 'POST', data).then(
+                data => {
+                    res(data);
+                },
+                error => {
+                    rej(error);
+                }
+            );
+
+        });
+
+    }
+
+    static delete(csrf, data) {
+
+        return new Promise((res, rej) => {
+
+            Fetch.url(`http://localhost:8000/api/departments/${data}`, csrf, 'DELETE').then(
                 data => {
                     res(data);
                 },

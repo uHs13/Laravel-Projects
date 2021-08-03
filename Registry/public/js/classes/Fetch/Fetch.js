@@ -1,23 +1,5 @@
 class Fetch {
-    static all(url, csrf) {
-
-        return new Promise((res, rej) => {
-
-            fetch(url, {
-                headers: {
-                    'X-CSRF-Token':csrf
-                }
-            }).then(response => {
-                res(response.json())
-            }).catch(e => {
-                rej(e);
-            });
-
-        });
-
-    }
-
-    static store(url, csrf, data) {
+    static url(url, csrf, method, body = null) {
 
         return new Promise((res, rej) => {
 
@@ -25,8 +7,8 @@ class Fetch {
                 headers: {
                     'X-CSRF-Token':csrf
                 },
-                method: 'POST',
-                body: data
+                method,
+                body
             }).then(response => {
                 res(response.json())
             }).catch(e => {

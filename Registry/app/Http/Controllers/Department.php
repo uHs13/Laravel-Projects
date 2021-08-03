@@ -75,8 +75,26 @@ class Department extends Controller
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Department $department)
+    public function destroy(int $id)
     {
-        //
+
+        $model = Model::find($id);
+
+        if ($model) {
+
+            $model->delete();
+
+            return json_encode([
+                'status' => 'success'
+            ]);
+
+        } else {
+
+            return json_encode([
+                'status' => 'error'
+            ]);
+
+        }
+
     }
 }
