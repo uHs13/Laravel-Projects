@@ -10,6 +10,7 @@ class Fetch {
                 method,
                 body
             }).then(response => {
+                console.log(response);
                 res(response.json())
             }).catch(e => {
                 rej(e);

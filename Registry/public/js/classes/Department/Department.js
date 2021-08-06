@@ -49,4 +49,21 @@ class Department {
         });
 
     }
+
+    static update(csrf, data) {
+
+        return new Promise((res, rej) => {
+
+            Fetch.url(`http://localhost:8000/api/departments/${data.id}`, csrf, 'POST', data).then(
+                response => {
+                    res(response);
+                },
+                error => {
+                    rej(error);
+                }
+            );
+
+        });
+
+    }
 }

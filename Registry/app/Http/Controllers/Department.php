@@ -15,7 +15,7 @@ class Department extends Controller
     public function index()
     {
 
-        return Model::select('id', 'name')
+        return Model::select('id', 'name', 'description')
         ->get()
         ->toJson();
 
@@ -43,7 +43,9 @@ class Department extends Controller
         $model->name = $request->input('name');
         $model->description = $request->input('description');
         $model->save();
-        return json_encode($model);
+        return json_encode([
+            'status' => 'success'
+        ]);
     }
 
     /**
@@ -66,7 +68,13 @@ class Department extends Controller
      */
     public function update(Request $request, Department $department)
     {
-        //
+        $model = Model::find($request->input('id'));
+        $model->name = $request->input('name');
+        $model->description = $request->input('description');
+        $model->save();
+        return json_encode([
+            'status' => 'success'
+        ]);
     }
 
     /**
