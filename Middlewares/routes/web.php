@@ -29,9 +29,9 @@ Route::get('/third', function () {
 
 })->where('name', '[a-zA-Z]+')->middleware("user3:Xzibit");
 
-Route::post('/login', [Login::class, 'login'])->name('login');
-
 Route::resource('users', User::class);
+
+Route::post('/login', [Login::class, 'login'])->name('login');
 
 Route::get('/logout', function (Request $request) {
 
@@ -40,3 +40,7 @@ Route::get('/logout', function (Request $request) {
     return redirect('/');
 
 })->name('logout');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
