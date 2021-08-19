@@ -34,11 +34,6 @@ Route::get('/info', [
     'index'
 ])->name('info');
 
-Route::get('/admin', [
-    App\Http\Controllers\Admin::class,
-    'index'
-])->name('admin.index');
-
 Route::get('/admin/login', [
     App\Http\Controllers\Auth\AdminLogin::class,
     'index'
@@ -48,3 +43,8 @@ Route::post('/admin/login', [
     App\Http\Controllers\Auth\AdminLogin::class,
     'login'
 ])->name('admin.login.post');
+
+Route::get('/admin', [
+    App\Http\Controllers\Admin::class,
+    'index'
+])->name('admin.index');
