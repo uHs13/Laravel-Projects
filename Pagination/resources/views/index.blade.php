@@ -23,7 +23,7 @@
                     <i class="fas fa-user-friends fas-3x text-primary"></i>
                     Clients
                 </div>
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table class="table table-striped">
                         <thead>
                             <tr>

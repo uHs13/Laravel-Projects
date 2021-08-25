@@ -285,12 +285,6 @@
             $('#liveToast').toast('show');
         }
 
-        function onEditEvents() {
-
-
-
-        }
-
         function formDataJson(formData) {
             let json = {};
             formData.forEach((value, key) => {

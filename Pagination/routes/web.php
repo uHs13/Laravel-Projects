@@ -15,3 +15,6 @@ use App\Http\Controllers\Client;
 */
 
 Route::get('/', [Client::class, 'index']);
+
+Route::get('/javascript', [Client::class, 'indexJs']);
+Route::get('/data', [Client::class, 'data']);
