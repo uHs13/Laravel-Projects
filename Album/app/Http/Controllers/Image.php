@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Image as Model;
@@ -17,7 +18,8 @@ class Image extends Controller
     {
         return view('album.index', [
             'images' => DB::table('images')
-            ->select('description', 'path')
+            ->select('id', 'description', 'path')
+            ->where('deleted_at', null)
             ->paginate(3)
         ]);
     }
@@ -55,38 +57,22 @@ class Image extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function download($id)
     {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        $model = Model::find($id, ['path']);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        if ($model) {
+
+            $file = Storage::disk('public')
+            ->getDriver()
+            ->getAdapter()
+            ->applyPathPrefix($model->path);
+
+            return response()->download($file);
+
+        }
+
     }
 
     /**
@@ -97,6 +83,21 @@ class Image extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        $model = Model::find($id);
+
+        if ($model) {
+            Storage::disk('public')->delete($model->path);
+            $model->delete();
+        }
+
+        session()->flush();
+
+        session()->flash(
+            'success', 
+            'Picture successfully deleted'
+        );
+
+        return redirect('/');
     }
 }

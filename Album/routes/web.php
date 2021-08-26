@@ -16,4 +16,6 @@ use App\Http\Controllers\Image;
 
 Route::get('/', [Image::class, 'index']);
 Route::get('/add', [Image::class, 'create']);
+Route::get('/download/{id}', [Image::class, 'download']);
 Route::post('/add', [Image::class, 'store']);
+Route::delete('/destroy/{id}', [Image::class, 'destroy']);
