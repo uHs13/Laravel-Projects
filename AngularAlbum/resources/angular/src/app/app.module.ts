@@ -18,10 +18,14 @@ import {MatBadgeModule} from '@angular/material/badge';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
+import { PostComponent } from './post/post.component';
+import { PostDialogComponent } from './post-dialog/post-dialog.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PostComponent,
+    PostDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +52,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatIconModule
   ],
   providers: [],
+  entryComponents: [
+    PostDialogComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
