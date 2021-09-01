@@ -3,14 +3,15 @@
         <div mat-card-avatar></div>
         <mat-card-title>{{ post.name }}</mat-card-title>
     </mat-card-header>
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+    <img mat-card-image src="/storage/{{ post.file }}">
     <mat-card-content>
         <p>
             {{ post.description }}
         </p>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-button>LIKE</button>
-        <button mat-button>SHARE</button>
+        <button mat-raised-button (click)="like()">LIKE</button>
+        <button mat-raised-button>SHARE</button>
+        <mat-icon *ngIf="post.likes > 0" color="accent" [matBadge]="post.likes" matBadgePosition="above after" matBadgeColor="accent" matBadgeOverlap="false">favorite</mat-icon>
     </mat-card-actions>
 </mat-card>
