@@ -13,7 +13,7 @@
 
 <body>
     <app-root></app-root>
-    <script src="{{ asset('js/main.ff67ee58ad59405e6568.js') }}" defer></script>
+    <script src="{{ asset('js/main.64f77378c208a16342e1.js') }}" defer></script>
     <script src="{{ asset('js/polyfills.a809672107b8756266fb.js') }}" defer></script>
     <script src="{{ asset('js/runtime.f7791ee12da892013155.js') }}" defer></script>
 </body>

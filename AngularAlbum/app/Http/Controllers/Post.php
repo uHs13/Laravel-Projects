@@ -66,9 +66,7 @@ class Post extends Controller
 
             $model->delete();
 
-            return json_encode([
-                'status' => 'success'
-            ]);
+            return response($model, 200);
 
         }
 

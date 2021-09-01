@@ -69,4 +69,16 @@ export class PostService {
 
   }
 
+  delete(id: any) {
+
+    this.http.delete('/api/' + id)
+    .subscribe((event: any) => {
+      let index = this.posts.findIndex((p) => p.id == id);
+      if (index >= 0) {
+        this.posts.splice(index, 1);
+      }
+    });
+
+  }
+
 }
