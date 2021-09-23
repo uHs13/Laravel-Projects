@@ -23,17 +23,23 @@ class ClientRequest extends FormRequest
      */
     public function rules()
     {
-
         return [
-            'name' => ['required', 'min:3', 'max:50'],
+            'name' => [
+                'required',
+                'min:3',
+                'max:50'
+            ],
             'email' => [
                 'required',
                 'email',
                 'max:100',
                 "unique:clients,email,{$this->client}"
             ],
-            'address' => ['required', 'min:5', 'max:100']
+            'address' => [
+                'required',
+                'min:5',
+                'max:100'
+            ]
         ];
-
     }
 }
