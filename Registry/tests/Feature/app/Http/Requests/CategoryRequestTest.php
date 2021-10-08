@@ -13,6 +13,30 @@ class CategoryRequestTest extends TestCase
 {
     use RefreshDatabase;
 
+    private CategoryRequest $request;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->request = new CategoryRequest();
+    }
+
+    public function getRequest(): CategoryRequest
+    {
+        return $this->request;
+    }
+
+    /**
+     * @test
+     * */
+    public function shouldAuthorize(): void
+    {
+        $this->assertTrue(
+            $this->getRequest()->authorize()
+        );
+    }
+
     /**
      * @test
      */
@@ -28,11 +52,9 @@ class CategoryRequestTest extends TestCase
 
     public function isRequestValid(array $data): bool
     {
-        $request = new CategoryRequest();
-
         $validator = Validator::make(
             $data,
-            $request->rules()
+            $this->getRequest()->rules()
         );
 
         return $validator->passes();
@@ -84,5 +106,12 @@ class CategoryRequestTest extends TestCase
                 'expected' => true
             ],
         ];
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+
+        unset($this->request);
     }
 }

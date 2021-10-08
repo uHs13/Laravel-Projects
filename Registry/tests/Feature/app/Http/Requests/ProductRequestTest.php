@@ -18,6 +18,20 @@ class ProductRequestTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    private $request;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->request = new ProductRequest();
+    }
+
+    public function getRequest(): ProductRequest
+    {
+        return $this->request;
+    }
+
     public function getRandomStock(): int
     {
         return rand(0, 1000);
@@ -31,6 +45,16 @@ class ProductRequestTest extends TestCase
     public function getRandomCategory(): int
     {
         return rand(0, 5);
+    }
+
+    /**
+     * @test
+     * */
+    public function shouldAuthorize(): void
+    {
+        $this->assertTrue(
+            $this->getRequest()->authorize()
+        );
     }
 
     /**
@@ -89,11 +113,9 @@ class ProductRequestTest extends TestCase
 
     public function isRequestValid(array $value): bool
     {
-        $request = new ProductRequest();
-
         $validator = Validator::make(
             $value,
-            $request->rules()
+            $this->getRequest()->rules()
         );
 
         return $validator->passes();
@@ -258,5 +280,12 @@ class ProductRequestTest extends TestCase
                 'expected' => false
             ],
         ];
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+
+        unset($this->request);
     }
 }

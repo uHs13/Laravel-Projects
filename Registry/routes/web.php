@@ -1,6 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Models\Developer as Developerm;
+use App\Models\Project as Projectm;
+use App\Models\Storage as Storagem;
+use App\Models\Address as Addressm;
+use App\Models\Person as Personm;
+use App\Models\Item as Itemm;
 use App\Http\Controllers\Developer;
 use App\Http\Controllers\Category;
 use App\Http\Controllers\Product;
@@ -10,12 +15,7 @@ use App\Http\Controllers\Project;
 use App\Http\Controllers\Client;
 use App\Http\Controllers\People;
 use App\Http\Controllers\Item;
-use App\Models\Developer as Developerm;
-use App\Models\Project as Projectm;
-use App\Models\Storage as Storagem;
-use App\Models\Address as Addressm;
-use App\Models\Person as Personm;
-use App\Models\Item as Itemm;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------

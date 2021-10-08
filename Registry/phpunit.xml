@@ -7,6 +7,9 @@
         <testsuite name="Request">
             <directory>./tests/Feature/app/Http/Requests</directory>
         </testsuite>
+        <testsuite name="Controller">
+            <directory>./tests/Feature/app/Http/Controllers</directory>
+        </testsuite>
     </testsuites>
     <coverage processUncoveredFiles="true">
         <include>

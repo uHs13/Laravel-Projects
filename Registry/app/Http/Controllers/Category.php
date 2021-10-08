@@ -15,7 +15,6 @@ class Category extends Controller
      */
     public function index()
     {
-
         return view('category.index',[
             'categories' => DB::table('categories')
             ->whereNull('deleted_at')
@@ -43,7 +42,6 @@ class Category extends Controller
      */
     public function store(CategoryRequest $request)
     {
-
         $data = $request->validated();
 
         $category = new Model();
@@ -53,7 +51,6 @@ class Category extends Controller
         $category->save();
 
         return redirect()->route('categories.index');
-
     }
 
     /**
@@ -78,9 +75,8 @@ class Category extends Controller
      */
     public function update(CategoryRequest $request, $id)
     {
-
         $data = $request->validated();
-        
+
         $category = Model::find($id);
 
         if (isset($category)) {
@@ -90,7 +86,6 @@ class Category extends Controller
         $category->save();
 
         return redirect()->route('categories.index');
-
     }
 
     /**
@@ -101,7 +96,6 @@ class Category extends Controller
      */
     public function destroy($id)
     {
-
         $category = Model::find($id);
 
         if (isset($category)) {
@@ -111,6 +105,5 @@ class Category extends Controller
         }
 
         return redirect()->route('categories.index');
-
     }
 }

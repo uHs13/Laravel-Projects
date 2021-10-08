@@ -14,21 +14,9 @@ class Department extends Controller
      */
     public function index()
     {
-
         return Model::select('id', 'name', 'description')
         ->get()
         ->toJson();
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -46,17 +34,6 @@ class Department extends Controller
         return json_encode([
             'status' => 'success'
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Department  $department
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Department $department)
-    {
-        //
     }
 
     /**
@@ -85,7 +62,6 @@ class Department extends Controller
      */
     public function destroy(int $id)
     {
-
         $model = Model::find($id);
 
         if ($model) {
@@ -103,6 +79,5 @@ class Department extends Controller
             ]);
 
         }
-
     }
 }

@@ -16,6 +16,28 @@ class ClientRequestTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->request = new ClientRequest();
+    }
+
+    public function getRequest(): ClientRequest
+    {
+        return $this->request;
+    }
+
+    /**
+     * @test
+     * */
+    public function shouldAuthorize(): void
+    {
+        $this->assertTrue(
+            $this->getRequest()->authorize()
+        );
+    }
+
     /**
      * @test
      * */
@@ -37,11 +59,9 @@ class ClientRequestTest extends TestCase
 
     public function isRequestValid(array $data): bool
     {
-        $request = new ClientRequest();
-
         $validator = Validator::make(
             $data,
-            $request->rules()
+            $this->getRequest()->rules()
         );
 
         return $validator->passes();
@@ -170,5 +190,12 @@ class ClientRequestTest extends TestCase
                 'expected' => true
             ],
         ];
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+
+        unset($this->request);
     }
 }
