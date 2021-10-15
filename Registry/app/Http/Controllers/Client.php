@@ -40,7 +40,6 @@ class Client extends Controller
      */
     public function store(ClientRequest $request)
     {
-
         $data = $request->validated();
 
         $client = new Model();
@@ -50,7 +49,6 @@ class Client extends Controller
         $client->save();
 
         return redirect()->route('clients.index');
-
     }
 
     /**
@@ -75,7 +73,6 @@ class Client extends Controller
      */
     public function update(ClientRequest $request, $id)
     {
-
         $data = $request->validated();
 
         $client = Model::find($id);
@@ -85,7 +82,6 @@ class Client extends Controller
         $client->save();
 
         return redirect()->route('clients.index');
-
     }
 
     /**
@@ -96,11 +92,9 @@ class Client extends Controller
      */
     public function destroy($id)
     {
-
         $client = Model::find($id);
         $client->delete();
 
         return redirect()->route('clients.index');
-
     }
 }

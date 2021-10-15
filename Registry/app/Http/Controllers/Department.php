@@ -31,6 +31,7 @@ class Department extends Controller
         $model->name = $request->input('name');
         $model->description = $request->input('description');
         $model->save();
+
         return json_encode([
             'status' => 'success'
         ]);
@@ -43,12 +44,15 @@ class Department extends Controller
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Department $department)
-    {
+    public function update(
+        Request $request,
+        Department $department
+    ) {
         $model = Model::find($request->input('id'));
         $model->name = $request->input('name');
         $model->description = $request->input('description');
         $model->save();
+
         return json_encode([
             'status' => 'success'
         ]);

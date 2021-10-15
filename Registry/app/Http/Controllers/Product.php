@@ -43,7 +43,6 @@ class Product extends Controller
      */
     public function store(ProductRequest $request)
     {
-
         $data = $request->validated();
 
         $product = new Model();
@@ -51,10 +50,10 @@ class Product extends Controller
         $product->stock = $data['stock'];
         $product->price = $data['price'];
         $product->category_id = $data['category'];
+        $product->department_id = $data['department'];
         $product->save();
 
         return redirect()->route('products.index');
-
     }
 
     /**
@@ -80,7 +79,6 @@ class Product extends Controller
      */
     public function update(ProductRequest $request, $id)
     {
-
         $data = $request->validated();
 
         $product = Model::find($id);
@@ -88,10 +86,10 @@ class Product extends Controller
         $product->stock = $data['stock'];
         $product->price = $data['price'];
         $product->category_id = $data['category'];
+        $product->department_id = $data['department'];
         $product->save();
 
         return redirect()->route('products.index');
-
     }
 
     /**
@@ -102,7 +100,6 @@ class Product extends Controller
      */
     public function destroy($id)
     {
-
         $product = Model::find($id);
 
         if ($product) {
@@ -110,6 +107,5 @@ class Product extends Controller
         }
 
         return redirect()->route('products.index');
-
     }
 }

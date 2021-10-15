@@ -15,4 +15,12 @@ class Department extends Model
         'name',
         'description'
     ];
+
+    public static function getIdString(): string
+    {
+
+        $ids = array_values(self::pluck('id')->toArray());
+
+        return implode(',', $ids);
+    }
 }

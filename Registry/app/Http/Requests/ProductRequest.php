@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Category as Model;
+use App\Models\Department;
+use App\Models\Category;
+
 
 class ProductRequest extends FormRequest
 {
@@ -46,7 +48,12 @@ class ProductRequest extends FormRequest
             'category' => [
                 'required',
                 'numeric',
-                'in:' . Model::getIdString()
+                'in:' . Category::getIdString()
+            ],
+            'department' => [
+                'required',
+                'numeric',
+                'in:' . Department::getIdString()
             ]
         ];
     }

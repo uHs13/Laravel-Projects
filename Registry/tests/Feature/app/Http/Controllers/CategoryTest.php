@@ -4,7 +4,6 @@ namespace Tests\Feature\app\Http\Controllers;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
-use App\Http\Requests\ClientRequest;
 use App\Models\Category;
 use Tests\TestCase;
 use Faker\Factory;
@@ -19,6 +18,30 @@ class CategoryTest extends TestCase
     ): TestResponse {
 
         return $this->get(route($route, $routeData));
+    }
+
+    public function generateFakeCategory(): array
+    {
+        return [
+            'name' => Factory::create()->name
+        ];
+    }
+
+    public function generateRandomName(): string
+    {
+        return Factory::create()->name;
+    }
+
+    public function createCategory(string $name): void
+    {
+        Category::create(['name' => $name]);
+    }
+
+    public function getCategoryId(string $name): int
+    {
+        return Category::select('id')
+        ->where('name', $name)
+        ->pluck('id')[0];
     }
 
     /**
@@ -58,9 +81,10 @@ class CategoryTest extends TestCase
      * */
     public function shouldCorrectlyCallStore(): void
     {
-        $response = $this->post(route('categories.store'), [
-            'name' => Factory::create()->name
-        ]);
+        $response = $this->post(
+            route('categories.store'),
+            $this->generateFakeCategory()
+        );
 
         $response->assertStatus(302);
     }
@@ -70,9 +94,10 @@ class CategoryTest extends TestCase
      * */
     public function shouldStoreReturnToIndex(): void
     {
-        $response = $this->post(route('categories.store'), [
-            'name' => Factory::create()->name
-        ]);
+        $response = $this->post(
+            route('categories.store'),
+            $this->generateFakeCategory()
+        );
 
         $response->assertRedirect(route('categories.index'));
     }
@@ -82,15 +107,13 @@ class CategoryTest extends TestCase
      * */
     public function shouldCorrectlyCallEdit(): void
     {
-        $name = Factory::create()->name;
+        $name = $this->generateRandomName();
 
-        Category::create(['name' => $name]);
+        $this->createCategory($name);
 
         $response = $this->requestGetRoute(
             'categories.edit',
-            Category::select('id')
-            ->where('name', $name)
-            ->pluck('id')[0]
+            $this->getCategoryId($name)
         );
 
         $response->assertStatus(200);
@@ -101,15 +124,13 @@ class CategoryTest extends TestCase
      * */
     public function shouldCorrectlyCallUpdate(): void
     {
-        $name = Factory::create()->name;
+        $name = $this->generateRandomName();
 
-        Category::create(['name' => $name]);
+        $this->createCategory($name);
 
         $response = $this->put(route(
             'categories.update',
-            Category::select('id')
-            ->where('name', $name)
-            ->pluck('id')[0]
+            $this->getCategoryId($name)
         ), ['name' => 'OtherName']);
 
         $response->assertStatus(302);
@@ -120,15 +141,13 @@ class CategoryTest extends TestCase
      * */
     public function shouldUpdateReturnToIndex(): void
     {
-        $name = Factory::create()->name;
+        $name = $this->generateRandomName();
 
-        Category::create(['name' => $name]);
+        $this->createCategory($name);
 
         $response = $this->put(route(
             'categories.update',
-            Category::select('id')
-            ->where('name', $name)
-            ->pluck('id')[0]
+            $this->getCategoryId($name)
         ), ['name' => 'OtherName']);
 
         $response->assertRedirect(route('categories.index'));
@@ -139,16 +158,14 @@ class CategoryTest extends TestCase
      * */
     public function shouldCorrectlyCallDestroy(): void
     {
-        $name = Factory::create()->name;
+        $name = $this->generateRandomName();
 
-        Category::create(['name' => $name]);
+        $this->createCategory($name);
 
         $response = $this->delete(route(
-            'categories.update',
-            Category::select('id')
-            ->where('name', $name)
-            ->pluck('id')[0]
-        ), ['name' => 'OtherName']);
+            'categories.destroy',
+            $this->getCategoryId($name)
+        ));
 
         $response->assertStatus(302);
     }
@@ -158,16 +175,14 @@ class CategoryTest extends TestCase
      * */
     public function shouldDestroyReturnToIndex(): void
     {
-        $name = Factory::create()->name;
+        $name = $this->generateRandomName();
 
-        Category::create(['name' => $name]);
+        $this->createCategory($name);
 
-        $response = $this->put(route(
+        $response = $this->delete(route(
             'categories.destroy',
-            Category::select('id')
-            ->where('name', $name)
-            ->pluck('id')[0]
-        ), ['name' => 'OtherName']);
+            $this->getCategoryId($name)
+        ));
 
         $response->assertRedirect(route('categories.index'));
     }
